@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # University of Waikato Smart Parking App
 
 A React Native mobile application built with Expo for smart parking management at the University of Waikato. This app allows users to find available parking spots, make bookings, manage payments through a digital wallet, and handle authentication.
@@ -273,7 +274,7 @@ This is a university project. For contributions or issues, please contact the de
 ## 📞 Support
 
 For technical support or questions:
-- Email: [your-email@waikato.ac.nz]
+- Email: farhanisrakalvy1998@gmail.com
 - Project Repository: [https://github.com/farhanisrakalvy/university-of-waikato-smart-parking](https://github.com/farhanisrakalvy/university-of-waikato-smart-parking)
 
 ## 🔄 Version History
@@ -287,3 +288,7 @@ For technical support or questions:
 ---
 
 Built with ❤️ for the University of Waikato Community
+=======
+# university-of-waikato-smart-parking
+Smart parking mobile application for University of Waikato built with React Native, Expo, and Supabase. Features real-time parking spot availability, booking system, digital wallet, and user authentication.
+>>>>>>> 483cc468092d421ba4398194596b657df31b2fa1
