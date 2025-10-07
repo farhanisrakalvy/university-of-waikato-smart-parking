@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # University of Waikato Smart Parking App
 
 A React Native mobile application built with Expo for smart parking management at the University of Waikato. This app allows users to find available parking spots, make bookings, manage payments through a digital wallet, and handle authentication.
@@ -172,13 +171,13 @@ npx expo start
 
 | Command | Description |
 |---------|-------------|
-| `npm start` | Start Expo development server |
-| `npm run android` | Run on Android device/emulator |
-| `npm run ios` | Run on iOS device/simulator |
-| `npm run web` | Run web version |
-| `npm run build` | Create production build |
-| `npm run build:android` | Build Android APK |
-| `npm run build:ios` | Build iOS app |
+| `npm run dev` | Start Expo development server |
+| `npm run build:web` | Build for web platform |
+| `npm run lint` | Run code linting |
+| `npx expo start` | Alternative way to start development server |
+| `npx expo start --android` | Run on Android device/emulator |
+| `npx expo start --ios` | Run on iOS device/simulator |
+| `npx expo start --web` | Run web version |
 
 ## 🎯 Key Features Implementation
 
@@ -252,7 +251,17 @@ git push origin feature/your-feature-name
    npm install -g @expo/cli
    ```
 
-4. **Supabase connection errors**:
+4. **Wallet balance error: "column users.wallet_balance does not exist"**:
+   - Go to Supabase Dashboard → SQL Editor
+   - Run this SQL migration:
+   ```sql
+   ALTER TABLE users ADD COLUMN IF NOT EXISTS wallet_balance DECIMAL(10,2) DEFAULT 0.00;
+   ALTER TABLE users ADD CONSTRAINT wallet_balance_nonnegative CHECK (wallet_balance >= 0);
+   CREATE INDEX IF NOT EXISTS idx_users_wallet_balance ON users(wallet_balance);
+   UPDATE users SET wallet_balance = 0.00 WHERE wallet_balance IS NULL;
+   ```
+
+5. **Supabase connection errors**:
    - Check environment variables
    - Verify API keys and project URL
    - Ensure network connectivity
@@ -288,7 +297,3 @@ For technical support or questions:
 ---
 
 Built with ❤️ for the University of Waikato Community
-=======
-# university-of-waikato-smart-parking
-Smart parking mobile application for University of Waikato built with React Native, Expo, and Supabase. Features real-time parking spot availability, booking system, digital wallet, and user authentication.
->>>>>>> 483cc468092d421ba4398194596b657df31b2fa1
