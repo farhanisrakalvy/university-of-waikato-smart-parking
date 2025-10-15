@@ -235,8 +235,14 @@ git push origin feature/your-feature-name
 
 ### Common Issues
 
-1. **Metro bundler issues**:
+1. **Metro bundler issues** (InternalBytecode.js errors):
    ```bash
+   # Clear Metro cache and restart
+   npx expo start --clear
+   
+   # If errors persist, delete cache and reinstall
+   rm -rf node_modules/.cache
+   npm install
    npx expo start --clear
    ```
 
@@ -251,18 +257,37 @@ git push origin feature/your-feature-name
    npm install -g @expo/cli
    ```
 
-4. **Wallet balance error: "column users.wallet_balance does not exist"**:
-   - Go to Supabase Dashboard → SQL Editor
-   - Run this SQL migration:
+4. **Database schema errors**: If you see errors like "column does not exist" or "relation does not exist":
+   
+   **Wallet balance error: "column users.wallet_balance does not exist"**:
    ```sql
    ALTER TABLE users ADD COLUMN IF NOT EXISTS wallet_balance DECIMAL(10,2) DEFAULT 0.00;
    ALTER TABLE users ADD CONSTRAINT wallet_balance_nonnegative CHECK (wallet_balance >= 0);
    CREATE INDEX IF NOT EXISTS idx_users_wallet_balance ON users(wallet_balance);
    UPDATE users SET wallet_balance = 0.00 WHERE wallet_balance IS NULL;
    ```
+   
+   **Saved cards error: "relation public.saved_cards does not exist"**:
+   ```sql
+   CREATE TABLE IF NOT EXISTS saved_cards (
+     id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+     user_id UUID REFERENCES users(id) ON DELETE CASCADE,
+     card_number TEXT NOT NULL,
+     card_holder_name TEXT NOT NULL,
+     expiry_date TEXT NOT NULL,
+     is_default BOOLEAN DEFAULT false,
+     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+     updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+   );
+   ```
+   
+   **Run all migrations at once**:
+   - Go to Supabase Dashboard → SQL Editor
+   - Copy and paste all the SQL commands above
+   - Click "Run" to execute
 
 5. **Supabase connection errors**:
-   - Check environment variables
+   - Check environment variables in `.env.local`
    - Verify API keys and project URL
    - Ensure network connectivity
 
