@@ -303,7 +303,7 @@ export default function MapScreen() {
       }
     } catch (error) {
       console.error('💥 Error fetching spots:', error);
-      Alert.alert('Error', `Failed to load parking spots: ${error.message}`);
+      Alert.alert('Error', `Failed to load parking spots: ${error instanceof Error ? error.message : 'Unknown error'}`);
     } finally {
       if (showLoading) {
         setLoading(false);
@@ -747,6 +747,10 @@ export default function MapScreen() {
     showPaymentModal(spot);
   };
 
+  // Constants to avoid React Native parser issues
+  const MAP_MODE = 'map';
+  const WEB_PLATFORM = 'web';
+
   if (loading) {
     return (
       <SafeAreaView style={styles.container}>
@@ -798,9 +802,9 @@ export default function MapScreen() {
         </View>
       </View>
 
-      {viewMode === 'map' ? (
+      {viewMode === MAP_MODE ? (
         <View style={styles.mapContainer}>
-          {Platform.OS !== 'web' ? (
+          {Platform.OS !== WEB_PLATFORM ? (
             <MapComponent
               spots={spots}
               mapRegion={mapRegion}
